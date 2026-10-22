@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lost in Space — Syntax Six</title>
+<style>
+:root{--blue:#078cff;--cyan:#55d8ff;--ink:#020917;--panel:rgba(2,13,31,.82);--white:#eaf6ff}
+*{box-sizing:border-box}body{margin:0;background:#020713;color:var(--white);font-family:Inter,Orbitron,"Segoe UI",sans-serif;min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+.space{position:fixed;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(1,6,18,.98) 0%,rgba(1,8,23,.87) 34%,rgba(1,9,24,.28) 67%,rgba(1,6,18,.18) 100%),url('2747.jpg') center/cover no-repeat}
+.space:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 73% 52%,transparent 0 25%,rgba(0,5,15,.15) 65%,rgba(0,0,0,.55));}
+header{height:88px;display:flex;align-items:center;justify-content:space-between;padding:18px 3.2%;gap:20px;border-bottom:1px solid #1a8cff30;background:linear-gradient(180deg,#020713bd,transparent)}
+.brand{display:flex;align-items:center;gap:13px;font-weight:900;letter-spacing:2px}.brand-mark{width:50px;height:50px;border:2px solid var(--cyan);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;box-shadow:0 0 18px #008cff80}
+nav{display:flex;gap:25px;align-items:center}nav a{color:#c8e8ff;text-decoration:none;font-size:13px;letter-spacing:2px;font-weight:700}nav a:hover{color:var(--cyan)}
+.profile{display:flex;align-items:center;gap:12px;border:1px solid var(--cyan);border-radius:40px;padding:9px 17px;background:#03162cbb;box-shadow:0 0 14px #008cff35}.avatar{width:34px;height:34px;border-radius:50%;background:#123958;display:grid;place-items:center;font-size:20px}.level{font-size:12px;line-height:1.4}.level b{display:block;font-size:14px}.stars{color:#ffd15a;font-size:18px;margin-left:8px}.gear{border:0;background:transparent;font-size:25px}
+main{min-height:calc(100vh - 88px);display:flex;align-items:center;padding:35px 0 55px 9.8%}.menu{width:min(440px,84vw);position:relative}.eyebrow{color:var(--cyan);letter-spacing:5px;font-size:12px;font-weight:800;margin:0 0 8px 13px}.logo{font-size:clamp(43px,6.2vw,78px);font-weight:1000;letter-spacing:3px;line-height:.94;margin:0;text-shadow:0 0 24px #168dff66}.logo span{display:block;font-size:.47em;letter-spacing:7px;margin:0 0 7px 9px}.orbit{color:var(--cyan)}.tagline{letter-spacing:6px;color:#8fdfff;font-size:13px;font-weight:800;margin:18px 0 24px 12px}.rule{display:flex;align-items:center;gap:12px;color:#cceeff;letter-spacing:5px;font-weight:800;margin:0 0 25px 8px}.rule:before,.rule:after{content:"";height:1px;background:#d8f4ff;width:60px}
+.actions{display:grid;gap:10px}.menu-btn{display:flex;align-items:center;gap:20px;width:100%;min-height:61px;padding:11px 20px;border:1px solid #078cff;border-radius:12px;background:linear-gradient(100deg,#061c38ed,#020b1ddd);box-shadow:inset 0 0 0 1px #0c7ad84a;transition:.18s;text-align:left;letter-spacing:2px;font-weight:800;font-size:16px}.menu-btn .ico{width:30px;font-size:23px;text-align:center}.menu-btn .arrow{margin-left:auto;font-size:24px;color:#bfeeff}.menu-btn:hover,.menu-btn:focus-visible{outline:none;transform:translateX(5px);border-color:#b0f2ff;box-shadow:0 0 22px #078cff70,inset 0 0 15px #078cff22}.menu-btn.primary{background:linear-gradient(100deg,#007bff,#0755c7 65%,#007bff);border:2px solid #8beaff;box-shadow:0 0 18px #008cffad,inset 0 0 12px #b3f7ff50;font-size:18px}
+.status{font-size:11px;letter-spacing:2px;color:#8fb6d4;margin:20px 0 0 12px}.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4effb1;box-shadow:0 0 9px #4effb1;margin-right:8px}
+.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;place-items:center;padding:20px;z-index:5}.modal-backdrop.show{display:grid}.modal{width:min(480px,100%);border:1px solid var(--cyan);border-radius:18px;padding:27px;background:linear-gradient(145deg,#071a32,#020713);box-shadow:0 0 40px #007bff66}.modal h2{margin:0 0 12px;letter-spacing:3px}.modal p{color:#b5d8ef;line-height:1.6}.modal button{border:1px solid var(--cyan);background:#064e9b;border-radius:8px;padding:10px 18px;margin-top:10px}.modal .close{float:right;background:transparent;margin:0;padding:4px 10px}
+@media(max-width:760px){header{height:auto;min-height:75px;padding:13px 4%;flex-wrap:wrap}.brand-mark{width:40px;height:40px}nav{order:3;width:100%;justify-content:center;gap:14px;flex-wrap:wrap}nav a{font-size:10px;letter-spacing:1px}.profile{margin-left:auto;padding:6px 10px}.gear{display:none}main{padding:45px 7%;min-height:calc(100vh - 110px);align-items:center}.space{background-position:58% center}.menu{width:min(420px,100%)}.menu-btn{min-height:56px}.tagline{letter-spacing:4px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="space" aria-hidden="true"></div>
+<header>
+  <div class="brand"><div class="brand-mark">NASA</div><span>SPACE PROGRAM</span></div>
+  <nav aria-label="Main navigation"><a href="#explore" data-panel="Explore">EXPLORE</a><a href="#learn" data-panel="Learn">LEARN</a><a href="#build" data-panel="Build">BUILD</a><a href="#impact" data-panel="Make a Difference">MAKE A DIFFERENCE</a></nav>
+  <div class="profile"><div class="avatar">♙</div><div class="level"><b>Explorer</b>Level <span id="level">1</span></div><span class="stars">★ <span id="stars">0</span></span></div>
+  <button class="gear" aria-label="Open settings" data-panel="Settings">⚙</button>
+</header>
+<main>
+  <section class="menu" aria-label="Game menu">
+    <p class="eyebrow">YOUR NEXT ADVENTURE</p>
+    <h1 class="logo"><span>LOST IN <span class="orbit">✦</span></span>SPACE</h1>
+    <p class="tagline">EXPLORE · SOLVE · SURVIVE</p>
+    <div class="rule">SYNTAX SIX</div>
+    <div class="actions">
+      <button class="menu-btn primary" data-panel="Play"><span class="ico">▶</span> PLAY <span class="arrow">›</span></button>
+      <button class="menu-btn" data-panel="Learn"><span class="ico">▤</span> LEARN <span class="arrow">›</span></button>
+      <button class="menu-btn" data-panel="Missions"><span class="ico">🚀</span> MISSIONS <span class="arrow">›</span></button>
+      <button class="menu-btn" data-panel="Budget"><span class="ico">▤</span> BUDGET <span class="arrow">›</span></button>
+      <button class="menu-btn" data-panel="Settings"><span class="ico">⚙</span> SETTINGS <span class="arrow">›</span></button>
+      <button class="menu-btn" data-panel="Exit"><span class="ico">⇥</span> EXIT <span class="arrow">›</span></button>
+    </div>
+    <p class="status"><i></i> SYSTEM ONLINE <span> · </span> READY FOR LAUNCH</p>
+  </section>
+</main>
+<div class="modal-backdrop" id="backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <section class="modal"><button class="close" id="close" aria-label="Close">✕</button><h2 id="modal-title">MISSION CONTROL</h2><p id="modal-text">Welcome, Explorer.</p><div id="modal-extra"></div><button id="confirm">CONTINUE</button></section>
+</div>
+<script>
+const backdrop=document.getElementById('backdrop'), title=document.getElementById('modal-title'), body=document.getElementById('modal-text'), extra=document.getElementById('modal-extra');
+const content={
+ Play:['Ready for launch?','Your first mission is waiting. This is a front-end demo; connect your game engine to start the actual gameplay.','🚀 Mission 01 · The Blue Planet'],
+ Learn:['Training database','Learn navigation, resource management, orbital mechanics, and survival basics.','📘 Training modules · Coming soon'],
+ Missions:['Mission board','Choose missions, explore unknown worlds, and earn stars as you complete objectives.','⭐ Available missions: 3'],
+ Budget:['Mission budget','Track fuel, oxygen, supplies, and mission credits here.','⛽ Fuel 100% · Oxygen 100% · Credits 500'],
+ Settings:['System settings','Audio: On · Graphics: High · Language: English','Settings controls can be connected here.'],
+ Exit:['Leave the station?','This demo cannot close your browser tab automatically. You can safely close this page when you are ready.',''],
+ Explore:['Explore the galaxy','Discover planets, space stations, and new mission locations.','🌌 Galaxy map · Coming soon'],
+ Build:['Build your spacecraft','Design your ship and manage its equipment.','🛠 Ship builder · Coming soon'],
+ 'Make a Difference':['Make a difference','Complete science missions and help protect the worlds you discover.','🌍 Science impact · Coming soon']
+};
+function openPanel(name){const item=content[name]||[name,'Mission control is ready.',''];title.textContent=item[0].toUpperCase();body.textContent=item[1];extra.textContent=item[2];backdrop.classList.add('show');}
+document.querySelectorAll('[data-panel]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();openPanel(el.dataset.panel)}));
+document.getElementById('close').addEventListener('click',()=>backdrop.classList.remove('show'));
+document.getElementById('confirm').addEventListener('click',()=>backdrop.classList.remove('show'));
+backdrop.addEventListener('click',e=>{if(e.target===backdrop)backdrop.classList.remove('show')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')backdrop.classList.remove('show')});
+</script>
+</body>
+</html>

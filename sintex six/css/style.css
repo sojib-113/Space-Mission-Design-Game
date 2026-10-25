@@ -1,0 +1,933 @@
+/* ============================================================
+   GOKU: SPACE MISSION COMMANDER
+   NASA Mission Control + Futuristic Capsule Corp HUD Theme
+   Optimized for Desktop, Tablets & Smartphones
+   ============================================================ */
+
+:root {
+  --bg-space: #030611;
+  --bg-panel: rgba(10, 18, 38, 0.78);
+  --bg-panel-border: rgba(0, 229, 255, 0.28);
+  --bg-panel-hover: rgba(0, 229, 255, 0.12);
+  --neon-cyan: #00e5ff;
+  --neon-gold: #ffd700;
+  --neon-green: #00ff88;
+  --neon-orange: #ff9100;
+  --neon-red: #ff3344;
+  --text-primary: #e6f1ff;
+  --text-secondary: #8ba2c4;
+  --font-mono: 'SF Mono', 'Courier New', Courier, monospace;
+  --hud-radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-space);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+}
+
+/* Glassmorphism Panel Utility */
+.glass-panel {
+  background: var(--bg-panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--bg-panel-border);
+  border-radius: var(--hud-radius);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(0, 229, 255, 0.05);
+}
+
+/* ============================================================
+   APP SCREENS CONTAINER
+   ============================================================ */
+.app-screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.app-screen.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   1. START SCREEN
+   ============================================================ */
+#startScreen {
+  background: radial-gradient(circle at 50% 30%, #101c3d, #040817 80%);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.start-hero {
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.goku-avatar-wrap {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 3px solid var(--neon-cyan);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.4);
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #000;
+}
+
+.goku-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-main-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px var(--neon-cyan);
+  margin-bottom: 6px;
+}
+
+.game-sub-title {
+  font-size: 1.05rem;
+  color: var(--neon-gold);
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+
+.goku-welcome-bubble {
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #c9e5ff;
+  margin-bottom: 24px;
+}
+
+.start-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0091ea, #00b0ff);
+  color: #fff;
+  border: none;
+  padding: 14px 24px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 176, 255, 0.4);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 176, 255, 0.6);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--neon-cyan);
+  border: 1px solid var(--neon-cyan);
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 229, 255, 0.15);
+}
+
+/* ============================================================
+   2. GAMEPLAY HUD DASHBOARD
+   ============================================================ */
+#gameplayContainer {
+  display: none;
+}
+
+#gameplayContainer.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOP BAR */
+.hud-topbar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--bg-panel-border);
+  background: rgba(4, 9, 22, 0.92);
+  z-index: 10;
+}
+
+.hud-top-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hud-mission-badge {
+  background: rgba(0, 229, 255, 0.15);
+  border: 1px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.hud-dest-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.hud-top-center {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--neon-gold);
+  letter-spacing: 2px;
+}
+
+.hud-top-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-btn:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+/* MAIN 3-COLUMN COCKPIT LAYOUT */
+.cockpit-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 280px 1fr 280px;
+  gap: 10px;
+  padding: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* SIDE PANELS */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.panel-header {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--neon-cyan);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+  padding-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* GOKU CREW CARD */
+.goku-commander-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 229, 255, 0.05);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.mini-goku-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--neon-gold);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mini-goku-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.goku-card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.commander-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.commander-role {
+  font-size: 0.75rem;
+  color: var(--neon-gold);
+}
+
+/* TELEMETRY GAUGES */
+.telemetry-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gauge-label-wrap {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.gauge-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #fff;
+}
+
+.gauge-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gauge-fill {
+  height: 100%;
+  background: var(--neon-cyan);
+  width: 100%;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+/* CREW ACTION BUTTONS */
+.crew-action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.action-btn-sm {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.action-btn-sm:hover {
+  background: rgba(0, 229, 255, 0.15);
+  border-color: var(--neon-cyan);
+}
+
+/* CENTER SIMULATION CANVAS */
+.center-cockpit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-wrapper {
+  flex: 1;
+  position: relative;
+  border-radius: var(--hud-radius);
+  overflow: hidden;
+  border: 1px solid var(--bg-panel-border);
+  background: #02040b;
+}
+
+#simCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* BOTTOM OBJECTIVES BAR */
+.bottom-objectives-panel {
+  padding: 10px 14px;
+  max-height: 110px;
+  overflow-y: auto;
+}
+
+.objectives-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--neon-gold);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+.objectives-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 6px;
+}
+
+.objective-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.objective-item.done {
+  color: var(--neon-green);
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+.obj-check {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--neon-cyan);
+}
+
+.objective-item.done .obj-check {
+  color: var(--neon-green);
+}
+
+/* ============================================================
+   MOBILE ON-SCREEN CONTROLS
+   ============================================================ */
+.mobile-controls-overlay {
+  display: none;
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  width: 100%;
+  padding: 0 16px;
+  justify-content: space-between;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.touch-dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(3, 48px);
+  gap: 4px;
+  pointer-events: auto;
+}
+
+.touch-btn {
+  background: rgba(10, 25, 55, 0.7);
+  border: 1px solid var(--neon-cyan);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.touch-btn:active {
+  background: rgba(0, 229, 255, 0.4);
+  transform: scale(0.94);
+}
+
+.btn-dpad-up    { grid-column: 2; grid-row: 1; }
+.btn-dpad-left  { grid-column: 1; grid-row: 2; }
+.btn-dpad-right { grid-column: 3; grid-row: 2; }
+.btn-dpad-down  { grid-column: 2; grid-row: 3; }
+
+.touch-action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.touch-action-btn {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.3), rgba(0, 150, 255, 0.5));
+  border: 2px solid var(--neon-cyan);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+}
+
+.touch-action-btn:active {
+  transform: scale(0.92);
+  background: var(--neon-cyan);
+  color: #000;
+}
+
+/* ============================================================
+   MODALS (BRIEFING, CARGO PREP, CRISIS, RESULT, HOLO-DECK)
+   ============================================================ */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(2, 6, 18, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-backdrop.active {
+  display: flex;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  background: rgba(8, 16, 36, 0.95);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 12px;
+  box-shadow: 0 0 35px rgba(0, 229, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: scaleUp 0.3s ease-out;
+}
+
+.modal-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-act-subtitle {
+  font-size: 0.75rem;
+  color: var(--neon-gold);
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.modal-body {
+  padding: 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-footer {
+  padding: 12px 18px;
+  border-top: 1px solid rgba(0, 229, 255, 0.15);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: rgba(4, 9, 22, 0.6);
+}
+
+/* CARGO CONFIGURATION ROWS */
+.cargo-config-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cargo-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.step-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(0, 229, 255, 0.15);
+  border: 1px solid var(--neon-cyan);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-val {
+  min-width: 65px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--neon-gold);
+}
+
+.cargo-consequence-card {
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* CRISIS POPUP */
+.crisis-pulse {
+  animation: pulseAlarm 1s infinite alternate;
+}
+
+.crisis-choice-btn {
+  background: rgba(255, 51, 68, 0.15);
+  border: 1px solid var(--neon-red);
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+}
+
+.crisis-choice-btn:hover {
+  background: rgba(255, 51, 68, 0.35);
+}
+
+/* RESULTS SCREEN STYLING (PDF PAGE 13) */
+.result-header {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+
+.result-stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.result-stat-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.result-stat-title {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.result-stat-value {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+}
+
+.score-breakdown-card {
+  background: rgba(0, 229, 255, 0.06);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.score-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+}
+
+.score-total-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(0, 229, 255, 0.3);
+  padding-top: 10px;
+  margin-top: 6px;
+}
+
+.score-total-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--neon-gold);
+}
+
+.score-total-val {
+  font-family: var(--font-mono);
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: var(--neon-green);
+}
+
+/* HOLO-DECK ENCYCLOPEDIA STYLING */
+.holo-layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 14px;
+  height: 420px;
+}
+
+.planet-tab-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+}
+
+.planet-tab-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.planet-tab-btn.active, .planet-tab-btn:hover {
+  background: rgba(0, 229, 255, 0.15);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+.planet-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.holo-details-wrap {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 6px;
+}
+
+.holo-planet-visual {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.holo-sphere {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.4s ease;
+}
+
+.holo-facts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #d1e2f7;
+}
+
+/* MISSION SELECT GRID */
+.mission-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.mission-select-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mission-select-card.unlocked:hover {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 229, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.mission-select-card.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.m-number {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--neon-gold);
+}
+
+.m-card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.m-card-dest {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN BREAKPOINTS (MOBILE & TABLET)
+   ============================================================ */
+@media (max-width: 900px) {
+  .cockpit-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    padding: 6px;
+  }
+
+  .side-panel {
+    display: none; /* Hide desktop sidebars on mobile, accessible via bottom controls or overlay */
+  }
+
+  .mobile-controls-overlay {
+    display: flex;
+  }
+
+  .game-main-title {
+    font-size: 1.6rem;
+  }
+
+  .holo-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .bottom-objectives-panel {
+    max-height: 75px;
+  }
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseAlarm {
+  from { box-shadow: 0 0 15px rgba(255, 51, 68, 0.4); }
+  to { box-shadow: 0 0 40px rgba(255, 51, 68, 0.9); }
+}

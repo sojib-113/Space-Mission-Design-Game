@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#030611">
+  <title>Goku: Space Mission Commander | মহাকাশ অভিযান</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       SCREEN 1: START & TITLE SCREEN
+       ========================================== -->
+  <div id="startScreen" class="app-screen active">
+    <div class="start-hero">
+      <div class="goku-avatar-wrap">
+        <img src="assets/goku.jpg" alt="Commander Son Goku" class="goku-avatar-img">
+      </div>
+      <h1 class="game-main-title" data-en="GOKU: SPACE MISSION COMMANDER" data-bn="গোকু: স্পেস মিশন কমান্ডার">GOKU: SPACE MISSION COMMANDER</h1>
+      <h2 class="game-sub-title" data-en="CAPSULE CORP × NASA DEEP-SPACE ODYSSEY" data-bn="ক্যাপসুল কর্প × নাসা মহাকাশ অভিযান">CAPSULE CORP × NASA DEEP-SPACE ODYSSEY</h2>
+      
+      <div class="goku-welcome-bubble">
+        <strong style="color:var(--neon-gold);">Commander Son Goku:</strong><br>
+        <span data-en="&ldquo;Yo! Together we are embarking on a 10-mission interplanetary voyage across the Solar System! Manage your resources wisely, make tough decisions, and let's bring the crew home safely!&rdquo;"
+              data-bn="&ldquo;ইয়ো! আমরা একসাথে সৌরজগতের ১০টি রোমাঞ্চকর মিশনে নামছি! জ্বালানি, অক্সিজেন আর খাবার সাবধানে সামলাও, সঠিক সিদ্ধান্ত নাও আর নিরাপদে ঘরে ফিরো!&rdquo;">
+          &ldquo;Yo! Together we are embarking on a 10-mission interplanetary voyage across the Solar System! Manage your resources wisely, make tough decisions, and let's bring the crew home safely!&rdquo;
+        </span>
+      </div>
+
+      <div class="start-btn-group">
+        <button id="btnStartGame" class="btn-primary" data-en="🚀 LAUNCH MISSION 01" data-bn="🚀 প্রথম মিশন শুরু করুন">🚀 LAUNCH MISSION 01</button>
+        <button id="btnMissionSelect" class="btn-secondary" data-en="🗺️ MISSION DIRECTORY (10 MISSIONS)" data-bn="🗺️ মিশন ডিরেক্টরি (১০টি মিশন)">🗺️ MISSION DIRECTORY (10 MISSIONS)</button>
+        <button id="btnHoloDeck" class="btn-secondary" data-en="🪐 SOLAR SYSTEM HOLO-DECK" data-bn="🪐 সৌরজগৎ এনসাইক্লোপিডিয়া">🪐 SOLAR SYSTEM HOLO-DECK</button>
+      </div>
+
+      <div style="display:flex; gap:12px; margin-top:20px;">
+        <button id="langToggleBtn" class="icon-btn">🌐 বাংলা</button>
+        <button id="soundToggleBtn" class="icon-btn">🔊 Sound</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SCREEN 2: COCKPIT HUD GAMEPLAY
+       ========================================== -->
+  <div id="gameplayContainer" class="app-screen">
+    
+    <!-- Top Bar -->
+    <header class="hud-topbar">
+      <div class="hud-top-left">
+        <span id="hudMissionName" class="hud-mission-badge">M01: FIRST LAUNCH</span>
+        <span id="hudDestination" class="hud-dest-text">Earth Low Orbit (300 km)</span>
+      </div>
+      <div class="hud-top-center">
+        <span id="hudMissionTime">00:00</span>
+      </div>
+      <div class="hud-top-right">
+        <button class="icon-btn" onclick="gameApp.openMissionSelect()" title="Missions">🗺️</button>
+        <button class="icon-btn" onclick="gameApp.openEncyclopedia()" title="Holo-Deck">🪐</button>
+        <button class="icon-btn" onclick="gameApp.toggleLanguage()" title="Language">🌐</button>
+        <button class="icon-btn" onclick="gameApp.showScreen('startScreen')" title="Home">🏠</button>
+      </div>
+    </header>
+
+    <!-- Cockpit 3-Column Body -->
+    <main class="cockpit-body">
+      
+      <!-- LEFT PANEL: CREW & COMMANDER GOKU -->
+      <aside class="side-panel glass-panel">
+        <div class="panel-header">
+          <span data-en="CREW TELEMETRY" data-bn="ক্রু ও কমান্ডার স্ট্যাটাস">CREW TELEMETRY</span>
+          <span style="color:var(--neon-gold); font-size:0.75rem;">SAIYAN CLASS</span>
+        </div>
+
+        <div class="goku-commander-card">
+          <div class="mini-goku-avatar">
+            <img src="assets/goku.jpg" alt="Son Goku">
+          </div>
+          <div class="goku-card-info">
+            <span class="commander-name">Son Goku (孫悟空)</span>
+            <span class="commander-role" data-en="Mission Commander" data-bn="মিশন কমান্ডার">Mission Commander</span>
+          </div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>❤️ <span data-en="Crew Health" data-bn="ক্রু স্বাস্থ্য">Crew Health</span></span>
+            <span id="gaugeHealth_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeHealth" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>🍖 <span data-en="Food Rations" data-bn="খাদ্য ভাণ্ডার">Food Rations</span></span>
+            <span id="gaugeFood_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeFood" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>💧 <span data-en="Drinking Water" data-bn="বিশুদ্ধ পানি">Drinking Water</span></span>
+            <span id="gaugeWater_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeWater" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>🫁 <span data-en="Life Support O2" data-bn="জীবন রক্ষাকারী অক্সিজেন">Life Support O2</span></span>
+            <span id="gaugeCrewO2_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeCrewO2" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>⚡ <span data-en="Saiyan Energy" data-bn="সাইয়ান এনার্জি">Saiyan Energy</span></span>
+            <span id="gaugeEnergy_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeEnergy" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>🧠 <span data-en="Crew Stress" data-bn="মানসিক চাপ">Crew Stress</span></span>
+            <span id="gaugeStress_val" class="gauge-val">10%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeStress" class="gauge-fill" style="background:#00e5ff;"></div></div>
+        </div>
+
+        <!-- Crew Actions -->
+        <div class="crew-action-grid">
+          <button id="btnRestCrew" class="action-btn-sm" title="Rest reduces stress by consuming food/water">
+            <span>🛏️</span>
+            <span data-en="REST CREW" data-bn="বিশ্রাম নিন">REST CREW</span>
+          </button>
+          <button id="btnSenzu" class="action-btn-sm" title="Senzu bean restores health and stamina to 100%">
+            <span>🌱</span>
+            <span data-en="SENZU BEAN" data-bn="সেনজু বিন">SENZU BEAN</span>
+            <span id="senzuCount" style="color:var(--neon-gold); font-size:0.7rem;">× 3</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- CENTER: SIMULATION CANVAS & BOTTOM CHECKLIST -->
+      <section class="center-cockpit">
+        <div class="canvas-wrapper">
+          <canvas id="simCanvas"></canvas>
+
+          <!-- Mobile On-Screen Touch Controls -->
+          <div class="mobile-controls-overlay">
+            <div class="touch-dpad">
+              <button id="btnTouchUp" class="touch-btn btn-dpad-up">▲</button>
+              <button id="btnTouchLeft" class="touch-btn btn-dpad-left">◀</button>
+              <button id="btnTouchRight" class="touch-btn btn-dpad-right">▶</button>
+              <button id="btnTouchDown" class="touch-btn btn-dpad-down">▼</button>
+            </div>
+            <div class="touch-action-group">
+              <button id="btnTouchThrust" class="touch-action-btn">🚀<br>THRUST</button>
+              <button id="btnTouchAction" class="touch-action-btn">⚡<br>ACTION</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Objectives Bar -->
+        <div class="bottom-objectives-panel glass-panel">
+          <div class="objectives-title" data-en="🎯 CURRENT MISSION OBJECTIVES" data-bn="🎯 বর্তমান মিশনের লক্ষ্যসমূহ">🎯 CURRENT MISSION OBJECTIVES</div>
+          <div id="hudObjectivesList" class="objectives-list">
+            <!-- Dynamically populated checklist -->
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: SPACECRAFT RESOURCES -->
+      <aside class="side-panel glass-panel">
+        <div class="panel-header">
+          <span data-en="SPACECRAFT TELEMETRY" data-bn="নভোযান টেলিমেট্রি">SPACECRAFT TELEMETRY</span>
+          <span style="color:var(--neon-cyan); font-size:0.75rem;">KINTO-UN 1</span>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>🚀 <span data-en="Ion Propellant (Fuel)" data-bn="জ্বালানি">Ion Propellant (Fuel)</span></span>
+            <span id="gaugeFuel_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeFuel" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>🫁 <span data-en="Oxygen Reserves" data-bn="অক্সিজেন ভাণ্ডার">Oxygen Reserves</span></span>
+            <span id="gaugeO2_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeO2" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>🔋 <span data-en="Capsule Reactor Power" data-bn="রিঅ্যাক্টর বিদ্যুৎ">Capsule Reactor Power</span></span>
+            <span id="gaugePower_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugePower" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>🛡️ <span data-en="Hull Shield Integrity" data-bn="জাহাজের বর্ম অক্ষত">Hull Shield Integrity</span></span>
+            <span id="gaugeHull_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeHull" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>📦 <span data-en="Cargo Payload Mass" data-bn="মালামালের ভর">Cargo Payload Mass</span></span>
+            <span id="gaugeCargo_val" class="gauge-val">60%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeCargo" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="telemetry-row">
+          <div class="gauge-label-wrap">
+            <span>📡 <span data-en="Mission Control Signal" data-bn="যোগাযোগ সংকেত">Mission Control Signal</span></span>
+            <span id="gaugeComms_val" class="gauge-val">100%</span>
+          </div>
+          <div class="gauge-track"><div id="gaugeComms" class="gauge-fill"></div></div>
+        </div>
+
+        <div class="cargo-consequence-card" style="margin-top:auto;">
+          <div style="font-weight:700; color:var(--neon-gold);" data-en="CONSEQUENCE ENGINE" data-bn="সিদ্ধান্ত ও প্রভাব">CONSEQUENCE ENGINE</div>
+          <div style="color:var(--text-secondary); font-size:0.75rem;" data-en="Space is not about reaching the destination. It is about making the right decisions to come back home." data-bn="মহাকাশ শুধু গন্তব্যে পৌঁছানো নয়। এটি সঠিক সিদ্ধান্ত নিয়ে নিরাপদে ঘরে ফেরার শিল্প।">
+            Space is not about reaching the destination. It is about making the right decisions to come back home.
+          </div>
+        </div>
+      </aside>
+
+    </main>
+  </div>
+
+  <!-- ==========================================
+       MODAL 1: MISSION BRIEFING
+       ========================================== -->
+  <div id="briefingModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span id="briefingAct" class="modal-act-subtitle">ACT 1 — TRAINING</span>
+          <span id="briefingTitle" class="modal-title">MISSION 01: FIRST LAUNCH</span>
+        </div>
+        <button id="briefingCloseBtn" class="icon-btn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div><strong style="color:var(--neon-cyan);">DESTINATION:</strong> <span id="briefingDest">Earth Orbit</span></div>
+          <div><strong style="color:var(--neon-gold);">RISK LEVEL:</strong> <span id="briefingDifficulty">⭐</span></div>
+        </div>
+
+        <div>
+          <strong style="color:var(--neon-cyan);">OBJECTIVE:</strong>
+          <p id="briefingObjective" style="margin-top:4px; font-size:0.9rem; line-height:1.4; color:#d9e8fb;">Launch into orbit.</p>
+        </div>
+
+        <div>
+          <strong style="color:var(--neon-gold);">TACTICAL TASKS:</strong>
+          <ul id="briefingTasks" style="list-style:none; margin-top:6px; display:flex; flex-direction:column; gap:4px; font-size:0.85rem;"></ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--neon-red);">POTENTIAL RISK:</strong>
+          <p id="briefingRisk" style="margin-top:4px; font-size:0.85rem; color:#ff9100;"></p>
+        </div>
+
+        <div class="goku-welcome-bubble" style="margin-bottom:0;">
+          <strong style="color:var(--neon-gold);">Commander Goku's Advice:</strong><br>
+          <span id="briefingGokuText">Hold on tight!</span>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="briefingPrepBtn" class="btn-primary" data-en="CONFIGURE CARGO & EQUIPMENT ➔" data-bn="মালামাল ও সরঞ্জাম প্রস্তুত করুন ➔">CONFIGURE CARGO & EQUIPMENT ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: CARGO PREPARATION & CONSEQUENCE
+       ========================================== -->
+  <div id="cargoModal" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-act-subtitle" data-en="DECISION & CONSEQUENCE SYSTEM" data-bn="সিদ্ধান্ত ও পরিণতি ব্যবস্থা">DECISION & CONSEQUENCE SYSTEM</span>
+          <span class="modal-title" data-en="MISSION PAYLOAD CONFIGURATION" data-bn="মিশন মালামাল ও জ্বালানি লোডিং">MISSION PAYLOAD CONFIGURATION</span>
+        </div>
+        <button class="modal-close-btn icon-btn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="cargo-consequence-card">
+          <strong style="color:var(--neon-cyan);" data-en="Physics Tradeoff Notice:" data-bn="মহাকাশ পদার্থবিদ্যার নিয়মাবলী:">Physics Tradeoff Notice:</strong>
+          <span data-en="More Food/Water = Higher Crew Survival, but Spacecraft Mass ↑ = Fuel Consumption Rate ↑ and Maneuverability ↓."
+                data-bn="বেশি খাবার/পানি = ক্রু বেঁচে থাকার সম্ভাবনা বৃদ্ধি, কিন্তু নভোযানের ভর বৃদ্ধি = জ্বালানি খরচ বৃদ্ধি ও স্টিয়ারিং ধীর!">
+            More Food/Water = Higher Crew Survival, but Spacecraft Mass ↑ = Fuel Consumption Rate ↑ and Maneuverability ↓.
+          </span>
+        </div>
+
+        <!-- Food Rations -->
+        <div class="cargo-config-row">
+          <div>
+            <div style="font-weight:700;">🍖 <span data-en="Food Supply" data-bn="খাদ্য সরবরাহ">Food Supply</span></div>
+            <div style="font-size:0.75rem; color:var(--text-secondary);" data-en="Keeps crew healthy and energized" data-bn="ক্রুর শক্তি ও স্বাস্থ্য বজায় রাখে">Keeps crew healthy</div>
+          </div>
+          <div class="cargo-stepper">
+            <button id="cargo_food_minus" class="step-btn">−</button>
+            <span id="cargoFoodVal" class="step-val">200 kg</span>
+            <button id="cargo_food_plus" class="step-btn">+</button>
+          </div>
+        </div>
+
+        <!-- Drinking Water -->
+        <div class="cargo-config-row">
+          <div>
+            <div style="font-weight:700;">💧 <span data-en="Purified Water" data-bn="বিশুদ্ধ পানি">Purified Water</span></div>
+            <div style="font-size:0.75rem; color:var(--text-secondary);" data-en="Essential for vital life support" data-bn="জীবনের অস্তিত্বের জন্য অপরিহার্য">Vital for survival</div>
+          </div>
+          <div class="cargo-stepper">
+            <button id="cargo_water_minus" class="step-btn">−</button>
+            <span id="cargoWaterVal" class="step-val">200 kg</span>
+            <button id="cargo_water_plus" class="step-btn">+</button>
+          </div>
+        </div>
+
+        <!-- Fuel Propellant -->
+        <div class="cargo-config-row">
+          <div>
+            <div style="font-weight:700;">🚀 <span data-en="Extra Ion Fuel" data-bn="অতিরিক্ত জ্বালানি">Extra Ion Fuel</span></div>
+            <div style="font-size:0.75rem; color:var(--text-secondary);" data-en="Powers thrusters & trajectory burns" data-bn="থ্রাস্টার ও দীর্ঘ ফ্লাইটের চালিকাশক্তি">Powers thrusters</div>
+          </div>
+          <div class="cargo-stepper">
+            <button id="cargo_fuel_minus" class="step-btn">−</button>
+            <span id="cargoFuelVal" class="step-val">500 kg</span>
+            <button id="cargo_fuel_plus" class="step-btn">+</button>
+          </div>
+        </div>
+
+        <!-- Scientific Kits -->
+        <div class="cargo-config-row">
+          <div>
+            <div style="font-weight:700;">🧪 <span data-en="Scientific Lab Equipment" data-bn="বৈজ্ঞানিক গবেষণাগার সরঞ্জাম">Scientific Lab Equipment</span></div>
+            <div style="font-size:0.75rem; color:var(--text-secondary);" data-en="Earns bonus XP from discoveries" data-bn="গবেষণায় বিশাল এক্সপি বোনাস অর্জন">Earns bonus XP</div>
+          </div>
+          <div class="cargo-stepper">
+            <button id="cargo_scienceKit_minus" class="step-btn">−</button>
+            <span id="cargoKitVal" class="step-val">100 kg</span>
+            <button id="cargo_scienceKit_plus" class="step-btn">+</button>
+          </div>
+        </div>
+
+        <!-- Emergency Oxygen Tanks -->
+        <div class="cargo-config-row">
+          <div>
+            <div style="font-weight:700;">🫁 <span data-en="Oxygen Reserve Tanks" data-bn="অক্সিজেন রিজার্ভ সিলিন্ডার">Oxygen Reserve Tanks</span></div>
+            <div style="font-size:0.75rem; color:var(--text-secondary);" data-en="Backup breathable atmosphere" data-bn="জরুরি শ্বাসের জোগান">Critical backup</div>
+          </div>
+          <div class="cargo-stepper">
+            <button id="cargo_oxygen_minus" class="step-btn">−</button>
+            <span id="cargoO2Val" class="step-val">200 kg</span>
+            <button id="cargo_oxygen_plus" class="step-btn">+</button>
+          </div>
+        </div>
+
+        <!-- Payload Mass Bar -->
+        <div style="margin-top:6px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:4px;">
+            <span data-en="Total Spacecraft Payload Mass:" data-bn="মোট নভোযানের পেলোড ভর:">Total Spacecraft Payload Mass:</span>
+            <span id="cargoWeightText" style="font-family:var(--font-mono); font-weight:700; color:var(--neon-cyan);">1200 kg / 1200 kg</span>
+          </div>
+          <div class="gauge-track"><div id="cargoWeightBar" class="gauge-fill"></div></div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; font-size:0.85rem; padding:6px 0;">
+          <div><span data-en="Fuel Consumption Rate:" data-bn="জ্বালানি ব্যবহারের হার:">Fuel Consumption Rate:</span> <strong id="cargoFuelMultiplier" style="color:var(--neon-gold);">1.15x</strong></div>
+          <div><span data-en="Maneuverability:" data-bn="স্টিয়ারিং গতিশীলতা:">Maneuverability:</span> <strong id="cargoManeuverability" style="color:var(--neon-green);">85%</strong></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="confirmLaunchBtn" class="btn-primary" data-en="CONFIRM & COMMENCE LAUNCH ➔" data-bn="যাচাই সম্পন্ন ও উড্ডয়ন শুরু ➔">CONFIRM & COMMENCE LAUNCH ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 3: UNEXPECTED CRISIS EVENT (Page 2 & 11)
+       ========================================== -->
+  <div id="crisisModal" class="modal-backdrop">
+    <div class="modal-card crisis-pulse">
+      <div class="modal-header" style="border-color:var(--neon-red);">
+        <div class="modal-title-group">
+          <span class="modal-act-subtitle" style="color:var(--neon-red);" data-en="🚨 RED ALERT — UNEXPECTED EVENT" data-bn="🚨 লাল সংকেত — অপ্রত্যাশিত সংকট">🚨 RED ALERT — UNEXPECTED EVENT</span>
+          <span id="crisisEventTitle" class="modal-title" style="color:#ff5566;">SOLAR RADIATION STORM</span>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <p id="crisisEventDesc" style="font-size:0.95rem; line-height:1.45; color:#ffebee;"></p>
+        <div style="font-weight:700; color:var(--neon-gold); font-size:0.85rem;" data-en="COMMANDER DECISION REQUIRED:" data-bn="কমান্ডারের অবিলম্বে সিদ্ধান্ত প্রয়োজন:">
+          COMMANDER DECISION REQUIRED:
+        </div>
+        <div id="crisisChoices" style="display:flex; flex-direction:column; gap:10px;">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 4: MISSION RESULTS SCREEN (Page 12-13)
+       ========================================== -->
+  <div id="resultScreen" class="app-screen">
+    <div class="modal-backdrop active" style="position:relative; width:100%; height:100%; background:none;">
+      <div class="modal-card" style="max-width:580px;">
+        <div class="modal-header">
+          <span id="resultStatus" class="result-header" style="color:var(--neon-green);">✅ MISSION COMPLETE</span>
+        </div>
+
+        <div class="modal-body">
+          <!-- Statistics Grid -->
+          <div class="result-stat-grid">
+            <div class="result-stat-box">
+              <span class="result-stat-title" data-en="Crew Survival" data-bn="ক্রু বেঁচে থাকার হার">Crew Survival</span>
+              <span id="resCrewSurvival" class="result-stat-value">100%</span>
+            </div>
+            <div class="result-stat-box">
+              <span class="result-stat-title" data-en="Fuel Remaining" data-bn="অবশিষ্ট জ্বালানি">Fuel Remaining</span>
+              <span id="resFuelRemain" class="result-stat-value">34%</span>
+            </div>
+            <div class="result-stat-box">
+              <span class="result-stat-title" data-en="Oxygen Remaining" data-bn="অবশিষ্ট অক্সিজেন">Oxygen Remaining</span>
+              <span id="resO2Remain" class="result-stat-value">41%</span>
+            </div>
+            <div class="result-stat-box">
+              <span class="result-stat-title" data-en="Hull Shield Integrity" data-bn="জাহাজের বর্ম অক্ষত">Hull Shield Integrity</span>
+              <span id="resHullIntegrity" class="result-stat-value">82%</span>
+            </div>
+            <div class="result-stat-box" style="grid-column: span 2;">
+              <span class="result-stat-title" data-en="Tasks & Samples Completed" data-bn="সম্পন্ন কাজ ও সংগৃহীত নমুনা">Tasks & Samples Completed</span>
+              <span id="resSamples" class="result-stat-value">5 / 5</span>
+            </div>
+          </div>
+
+          <!-- Itemized Scoring System (From PDF Page 12) -->
+          <div class="score-breakdown-card">
+            <div style="font-weight:700; color:var(--neon-gold); font-size:0.85rem; margin-bottom:4px;" data-en="SCORING BREAKDOWN (PDF STANDARD)" data-bn="স্কোরিং বিবরণ (পিডিএফ নিয়ম)">
+              SCORING BREAKDOWN (PDF STANDARD)
+            </div>
+            <div id="scoreList"></div>
+            <div class="score-total-box">
+              <span class="score-total-title" data-en="MISSION SCORE" data-bn="মোট মিশন স্কোর">MISSION SCORE</span>
+              <span id="resultTotalScore" class="score-total-val">1,420 XP</span>
+            </div>
+          </div>
+
+          <div style="text-align:center; font-size:1.8rem; margin:6px 0;" id="resultStars">
+            ⭐⭐⭐⭐
+          </div>
+
+          <div class="goku-welcome-bubble" style="margin-bottom:0;">
+            <strong style="color:var(--neon-gold);">Commander Son Goku:</strong><br>
+            <span id="resultGokuText">Awesome teamwork! Ready for the next coordinates!</span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button id="resultHomeBtn" class="btn-secondary" data-en="BASE CONTROL" data-bn="বেস কন্ট্রোল">BASE CONTROL</button>
+          <button id="resultRetryBtn" class="btn-secondary" data-en="RETRY" data-bn="পুনরায় চেষ্টা">RETRY</button>
+          <button id="resultNextBtn" class="btn-primary" data-en="NEXT MISSION UNLOCKED ➔" data-bn="পরবর্তী মিশন আনলক ➔">NEXT MISSION UNLOCKED ➔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 5: SOLAR SYSTEM HOLO-DECK ENCYCLOPEDIA
+       ========================================== -->
+  <div id="encyclopediaModal" class="modal-backdrop">
+    <div class="modal-card" style="max-width:750px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-act-subtitle" data-en="EDUCATIONAL SOLAR SYSTEM ARCHIVE" data-bn="সৌরজগতের বৈজ্ঞানিক এনসাইক্লোপিডিয়া">EDUCATIONAL SOLAR SYSTEM ARCHIVE</span>
+          <span class="modal-title" data-en="PLANETS OF THE SOLAR SYSTEM" data-bn="সৌরজগতের ৮টি গ্রহের তথ্য">PLANETS OF THE SOLAR SYSTEM</span>
+        </div>
+        <button class="modal-close-btn icon-btn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="holo-layout">
+          <!-- Planet Selector Column -->
+          <div id="encyclopediaPlanetList" class="planet-tab-list">
+            <!-- Dynamically populated 8 planets -->
+          </div>
+
+          <!-- Planet Educational Fact Card -->
+          <div class="holo-details-wrap">
+            <div class="holo-planet-visual">
+              <div id="holoPlanetSphere" class="holo-sphere"></div>
+            </div>
+
+            <div>
+              <h3 id="holoPlanetName" style="color:#fff; font-size:1.4rem;">Earth (পৃথিবী)</h3>
+              <div id="holoPlanetTagline" style="color:var(--neon-cyan); font-size:0.85rem; margin-bottom:8px;">Our Home & Life Oasis</div>
+            </div>
+
+            <!-- Stats grid -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; background:rgba(255,255,255,0.04); padding:10px; border-radius:8px;">
+              <div><span style="color:var(--text-secondary); font-size:0.75rem;">Dist. from Sun:</span> <strong id="holoDistSun" style="color:#fff; font-family:var(--font-mono);">149.6M km</strong></div>
+              <div><span style="color:var(--text-secondary); font-size:0.75rem;">Diameter:</span> <strong id="holoDiameter" style="color:#fff; font-family:var(--font-mono);">12,742 km</strong></div>
+              <div><span style="color:var(--text-secondary); font-size:0.75rem;">Moons:</span> <strong id="holoMoons" style="color:#fff; font-family:var(--font-mono);">1</strong></div>
+              <div><span style="color:var(--text-secondary); font-size:0.75rem;">Avg Temp:</span> <strong id="holoTemp" style="color:#fff; font-family:var(--font-mono);">15°C</strong></div>
+              <div style="grid-column:span 2;"><span style="color:var(--text-secondary); font-size:0.75rem;">Orbital Revolution:</span> <strong id="holoOrbital" style="color:#fff; font-family:var(--font-mono);">365.25 days</strong></div>
+            </div>
+
+            <div>
+              <strong style="color:var(--neon-gold); font-size:0.85rem;" data-en="SCIENTIFIC FACTS:" data-bn="বৈজ্ঞানিক তথ্যসমূহ:">SCIENTIFIC FACTS:</strong>
+              <ul id="holoPlanetFacts" class="holo-facts-list" style="list-style:none; margin-top:6px;"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btnViewInfographic" class="btn-primary" style="margin-right:auto;" data-en="🖼️ VIEW FULL INFOGRAPHIC CHART" data-bn="🖼️ সম্পূর্ণ চার্ট দেখুন">🖼️ VIEW FULL INFOGRAPHIC CHART</button>
+        <button class="modal-close-btn btn-secondary" data-en="CLOSE ARCHIVE" data-bn="বন্ধ করুন">CLOSE ARCHIVE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 5B: EDUCATIONAL INFOGRAPHIC POSTER VIEWER
+       ========================================== -->
+  <div id="infographicModal" class="modal-backdrop">
+    <div class="modal-card" style="max-width:850px; max-height:92vh;">
+      <div class="modal-header">
+        <span class="modal-title" data-en="SOLAR SYSTEM INFOGRAPHIC POSTER" data-bn="সৌরজগতের পূর্ণাঙ্গ তথ্যচিত্র">SOLAR SYSTEM INFOGRAPHIC POSTER</span>
+        <button class="modal-close-btn icon-btn">✕</button>
+      </div>
+      <div class="modal-body" style="align-items:center; overflow-y:auto; padding:12px;">
+        <img src="assets/planets_info.webp" alt="Planets of the Solar System" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 0 20px rgba(0,229,255,0.3); margin-bottom:14px;">
+        <img src="assets/planets_grid.jpg" alt="8 Planets Comparison" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 0 20px rgba(0,229,255,0.3);">
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close-btn btn-secondary" data-en="CLOSE" data-bn="বন্ধ করুন">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 6: 10-MISSION DIRECTORY SELECTOR
+       ========================================== -->
+  <div id="missionSelectModal" class="modal-backdrop">
+    <div class="modal-card" style="max-width:800px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-act-subtitle" data-en="COMMAND FLIGHT DIRECTORY" data-bn="ফ্লাইট মিশন ডিরেক্টরি">COMMAND FLIGHT DIRECTORY</span>
+          <span class="modal-title" data-en="ALL 10 SPACE MISSIONS" data-bn="১০টি মহাকাশ মিশন তালিকা">ALL 10 SPACE MISSIONS</span>
+        </div>
+        <button class="modal-close-btn icon-btn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="missionSelectGrid" class="mission-select-grid">
+          <!-- Populated from data.js -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="modal-close-btn btn-secondary" data-en="CLOSE" data-bn="বন্ধ করুন">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
